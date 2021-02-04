@@ -1,6 +1,6 @@
 const initialState = {
   items: [],
-  isLoaded: false,
+  isLoaded: true,
 };
 
 const pizzasReducer = (state = initialState, action) => {

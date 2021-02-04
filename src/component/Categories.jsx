@@ -1,26 +1,24 @@
 import React from 'react';
 
-const Categories = React.memo( function ({ categoriesData,onSelectedCategory }) {
-  const [itemsSelected, setItemsSelected] = React.useState(null);
+const Categories = React.memo( function ({ categoriesData,onSelectedCategory,selectedCategory }) {
 
   const onItemsClick = (id) => {
-    setItemsSelected(id);
     onSelectedCategory(id);
   };
 
   const onItemsAllClick = () => {
-    setItemsSelected(null);
+    onSelectedCategory(null);
   };
   console.log('categories render')
   return (
     <div className="categories">
       <ul>
-        <li onClick={onItemsAllClick} className={itemsSelected === null ? 'active' : ''}>
+        <li onClick={onItemsAllClick} className={selectedCategory === null ? 'active' : ''}>
           Все
         </li>
         {categoriesData?.map((name, id) => (
           <li
-            className={itemsSelected === id ? 'active' : ''}
+            className={selectedCategory === id ? 'active' : ''}
             onClick={() => onItemsClick(id)}
             key={`${id}_${name}`}>
             {name}
