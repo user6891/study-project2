@@ -1,0 +1,1 @@
+export const addPizzas = (payload) => ({type: 'ADD_PIZZAS', payload})

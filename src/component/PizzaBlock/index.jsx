@@ -1,13 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import LoadingBlock from './LoadingBlock';
+import Button from '../Button';
 
-function PizzaBlock({ name, types, sizes, price, imageUrl }) {
+function PizzaBlock({ id, name, types, sizes, price, imageUrl, onAddPizzas }) {
   const availableSizes = [26, 30, 40];
   const availableTypes = ['тонкое', 'традиционное'];
   const [selectedType, setSelectedType] = React.useState(types[0]);
   const [selectedSize, setSelectedSize] = React.useState(sizes[0]);
+  let countPizzas = useSelector(({cart})=> cart.items?.[id]?.length)
 
   const onClickType = (id) => {
     setSelectedType(id);
@@ -16,13 +19,13 @@ function PizzaBlock({ name, types, sizes, price, imageUrl }) {
     setSelectedSize(item);
   };
 
+  const onClickAddPizzas = () => {
+    onAddPizzas({id, name, type:selectedType, size:selectedSize, price, imageUrl});
+  };
+
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src={imageUrl}
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
@@ -56,11 +59,11 @@ function PizzaBlock({ name, types, sizes, price, imageUrl }) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button onClick={onClickAddPizzas} className="button--add " outline>
           <svg
             width="12"
             height="12"
-            viewBox="0 0 12 12" 
+            viewBox="0 0 12 12"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -68,15 +71,16 @@ function PizzaBlock({ name, types, sizes, price, imageUrl }) {
               fill="white"
             />
           </svg>
-          <span>Добавить</span>
-          <i>2</i>
-        </div>
+          <span>Добавить</span>{countPizzas ? <i>{countPizzas}</i> : ''}
+
+        </Button>
       </div>
     </div>
   );
 }
 
 PizzaBlock.propTypes = {
+  onAddPizzas: PropTypes.func.isRequired,
   name: PropTypes.string,
   types: PropTypes.arrayOf(PropTypes.number).isRequired,
   sizes: PropTypes.arrayOf(PropTypes.number).isRequired,

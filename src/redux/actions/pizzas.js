@@ -15,6 +15,6 @@ export const fetchPizzas = (sortBy, category) => (dispatch) => {
         dispatch(setPizzas(res));
         dispatch(setLoaded(false));
 
-      }, 2000);
+      }, 1000);
     });
 };
