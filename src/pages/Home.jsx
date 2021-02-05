@@ -28,7 +28,6 @@ function Home() {
   }, []);
 
   const onAddPizzas = (obj) => {
-
     dispatch(addPizzas(obj));
   };
   return (
